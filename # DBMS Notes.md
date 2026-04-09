@@ -137,3 +137,23 @@ inner join stocks
 on stocks.product_id = products.id
 group by product_categories.product_cat;
 ```
+
+### Storing Output as Intermediate Table
+```sql
+with discount_table as (
+    select 
+    products.product, 
+    purchase_price, 
+    case 
+        when purchase_price > 60000 then 10 
+        when purchase_price >= 40000 then 5
+        when purchase_price < 40000 then 2 
+        else 0 
+    end as discount 
+from stocks 
+inner join products on stocks.product_id = products.id
+)
+
+select product,purchase_price,discount,(purchase_price-(purchase_price*discount*0.01)) as "Discounted Price"
+from discount_table;
+```
