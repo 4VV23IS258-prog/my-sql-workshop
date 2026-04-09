@@ -181,3 +181,7 @@ group by customers.customer
 )
 select customer,total_sales,rank() over( order by (total_sales)) as "rank" from temp2;
 ```
+##### quick notes
+```
+row numbers generate serial numbers
+```
