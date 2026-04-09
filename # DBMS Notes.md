@@ -157,3 +157,17 @@ inner join products on stocks.product_id = products.id
 select product,purchase_price,discount,(purchase_price-(purchase_price*discount*0.01)) as "Discounted Price"
 from discount_table;
 ```
+### Category with maximum purchased products
+```sql
+with temp as (
+select product_categories.product_cat,sum(stocks.purchase_qty) as pq
+from product_categories LEFT JOIN products 
+ON product_categories.id = products.product_cat_id 
+INNER JOIN stocks 
+on stocks.product_id=products.id 
+group by product_categories.product_cat
+)
+select product_cat from temp where pq=(select max(pq) from temp);
+--OR
+select product_cat from temp order by pq desc limit 1;
+```
