@@ -171,3 +171,13 @@ select product_cat from temp where pq=(select max(pq) from temp);
 --OR
 select product_cat from temp order by pq desc limit 1;
 ```
+### Rank Function
+```sql
+with temp2 as (
+select customers.customer,sum(order_price*order_qty) as total_sales from 
+customers LEFT JOIN sales
+on customers.id=sales.id
+group by customers.customer
+)
+select customer,total_sales,rank() over( order by (total_sales)) as "rank" from temp2;
+```
