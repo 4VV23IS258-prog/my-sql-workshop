@@ -1,4 +1,9 @@
 # DBMS Notes
+<style>
+    .hidden{
+    display:none;
+    }
+</style>
 
 ## Create Table
 ```sql 
@@ -27,7 +32,7 @@ foreign KEY(product_cat_id) references product_categories(id)
 
 *refer raw markdown*
 
-<textarea style="display:none;">
+<textarea class="hidden">
 insert into product_categories(product_cat,short_code) values ("smart phones","SP");
 insert into product_categories(product_cat,short_code) values ("Laptops","LP");
 insert into product_categories(product_cat,short_code) values ("smart watches","SW");
@@ -188,3 +193,42 @@ ON stocks.supplier_id=suppliers.id
 group BY supplier_city;
 
 ```
+### Some more create Statements `hidden`
+<div class="hidden">
+create table customers(
+id int not null AUTO_INCREMENT,
+customer varchar(20) not null,
+customer_city varchar(20) not null,
+primary key(id)
+);
+insert into customers(customer,customer_city) values ("Vishwa","Mysore");
+insert into customers(customer,customer_city) values ("Tejas","Mysore");
+insert into customers(customer,customer_city) values ("Dhanush","Mangalore");
+insert into customers(customer,customer_city) values ("Sumana","Bengaluru");
+create table sales(
+id int not null AUTO_INCREMENT,
+customer_id int,
+product_id int not null,
+order_date date not null,
+order_qty int not null,
+order_price float(15,2) not null,
+primary key(id),
+foreign key(customer_id) references customers(id),
+foreign key(product_id) references products(id)
+);
+insert into sales(customer_id,product_id,order_date,order_qty,order_price) values (1,1,"2026-03-10",1,96000);
+insert into sales(customer_id,product_id,order_date,order_qty,order_price) values (2,1,"2026-03-12",1,96000);
+insert into sales(customer_id,product_id,order_date,order_qty,order_price) values (3,2,"2026-03-15",1,75000);
+insert into sales(customer_id,product_id,order_date,order_qty,order_price) values (4,2,"2026-04-06",2,75000);
+insert into sales(customer_id,product_id,order_date,order_qty,order_price) values (1,2,"2026-04-07",1,70000);
+select * from customers;
+select * from sales;
+</div>
+
+### Dates
+```sql
+select CONCAT("$",sum(order_price)) As "Total Sales Of Iphone" from sales
+where order_date between "2026-03-01" and "2026-03-31" and product_id=
+(select id from products where product="iphone");
+```
+
